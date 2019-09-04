@@ -30,15 +30,16 @@ import { error } from 'util';
 
   /**************************************************************************** */
   app.get("/filteredimage", async(req, res) => {
+    
     if(!req.query.image_url) {
       res.status(404).send("image_url query parameter required")
     }
 
-    let filteredpath : string = await filterImageFromURL(req.query.image_url);
+    const filteredpath : string = await filterImageFromURL(req.query.image_url);
 
     res.sendFile(filteredpath, async(err) => {
       if(err) {
-        res.status(404).end();
+        res.status(500).end();
       }
       else {
         await deleteLocalFiles([filteredpath]);
