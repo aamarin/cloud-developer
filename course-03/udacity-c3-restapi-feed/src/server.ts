@@ -10,8 +10,24 @@ import { V0MODELS } from './controllers/v0/model.index';
 const c = config.dev;
 
 (async () => {
+
+  // Test sequelize connection before trying to use it
+  sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+
   await sequelize.addModels(V0MODELS);
-  await sequelize.sync();
+  
+  await sequelize.sync().then(() => {
+    console.log(`Database & tables created!`)
+  }).catch(err => {
+    console.error(`Error creating database & tables`, err);
+  });
 
   const app = express();
   const port = process.env.PORT || 8080; // default port to listen
@@ -25,7 +41,7 @@ const c = config.dev;
     next();
   });
 
-  app.use('/api/v0/', IndexRouter)
+  app.use('/api/v0/', IndexRouter);
 
   // Root URI call
   app.get( "/", async ( req, res ) => {
