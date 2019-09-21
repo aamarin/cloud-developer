@@ -6,6 +6,10 @@ metadata:
   name: backend-feed
 spec:
   replicas: 3
+  stragety: 
+    type: RollingUpdate
+      maxUnavailable: 10%
+      maxSurge: 1
   template:
     metadata:
       labels:
