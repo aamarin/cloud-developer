@@ -6,9 +6,10 @@ metadata:
   name: frontend
 spec:
   replicas: 2
-  stragety: 
+  strategy:
     type: RollingUpdate
-      maxUnavailable: 10%
+    rollingUpdate:
+      maxUnavailable: 0
       maxSurge: 1
   template:
     metadata:

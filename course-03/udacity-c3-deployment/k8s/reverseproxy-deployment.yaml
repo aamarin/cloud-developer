@@ -6,10 +6,10 @@ metadata:
   name: reverseproxy
 spec:
   replicas: 2
-  stragety: 
+  strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 10%
+      maxUnavailable: 0
       maxSurge: 1
   template:
     metadata:
